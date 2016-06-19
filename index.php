@@ -5,7 +5,7 @@
     <head>
         <title>Config Reader Demo</title>
         <link href='styles/main.css' type='text/css' rel='stylesheet'>
-        <script src='https://code.jquery.com/jquery-3.0.0.min.js'></script>
+        <script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
         <script src='scripts/rc.js'></script>
         
         <!--Bootstrap-->
