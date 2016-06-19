@@ -1,0 +1,13 @@
+#output{
+    margin-top:10px;
+    transition:background .5s;
+    color:#fff;
+    border-radius:5px;
+    background:#333;
+    padding:20px;
+    
+}
+#output:empty{
+    transition:background .5s;
+    background:transparent;
+}
