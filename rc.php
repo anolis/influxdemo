@@ -4,11 +4,14 @@ $config_file = 'base.conf';
 $config_dir = './configs/';
 $config_data = array();
 
+//perform get/post operations
 if(isset($_GET['a']) && isset($_POST['p'])){
     $action = $_GET['a'];
     $param = $_POST['p'];
 
     switch($action){
+        
+        //returns the value of a setting to the front end in json
         case 'getParam':
             if(sizeof($param) <= 16){//perform a simple sanity check on input data
                 
@@ -32,29 +35,41 @@ if(isset($_GET['a']) && isset($_POST['p'])){
         default:
             echo('no setting selected.');
             break;
-            
     }
 }
 
+//reads the config file
 function readConfig($config_file = 'base.conf'){
     $fullpath = $config_dir . $config_file;
     is_file($fullpath);
     $config_raw = file_get_contents($fullpath);
     $config_raw = explode("\n", $config_raw);
     
+    //extract the key/value pair from each valid config row
+    //skip the bad ones
     foreach($config_raw as $config_row){
         $setting = explode("=", $config_row);
         $setting[0] = trim($setting[0]);
         
+        //this is a comment .. skip
         if(substr($setting[0], 0,1) == "#") continue;
+        
+        //this is a corrupt line, skip
         if(!preg_match('/^[A-z]+$/', $setting[0])) continue;
+        
+        //if all is good, add the setting to the config_data array
         $config_data["$setting[0]"] = $setting[1];
     }
     
+    //filter out empty array k/v's
     $config_data = array_filter($config_data);
     return $config_data;
 }
 
+//this function will normalize setting data, 
+//int strings become ints.. 
+//float strings become floats.. 
+//boolean strings become booleans
 function parseSetting($setting){
     
     //clean up input
@@ -96,6 +111,8 @@ function parseSetting($setting){
     return $setting;
 
 }
+
+//Default load of rc.php renders the page and inserts tmplt vars
 
 //outputs html formatted 
 function getParamNames(){
